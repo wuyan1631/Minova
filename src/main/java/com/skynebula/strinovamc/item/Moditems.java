@@ -18,6 +18,9 @@ public class Moditems
     public static final RegistryObject<Item> BASESTRINGS = ITEMS.register("basestrings",
             () -> new Item(new Item.Properties()));
     //注册基弦
+    public static final RegistryObject<Item> BABLO_CRYSTALS = ITEMS.register("bablo_crystals",
+        () -> new Item(new Item.Properties()));
+    //注册巴布洛晶核
 
     public static void register(IEventBus eventBus)
     {

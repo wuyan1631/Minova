@@ -71,7 +71,7 @@ public class StrinovaMc
     // Add the example block item to the building blocks tab
     private void addCreative(BuildCreativeModeTabContentsEvent event)
     {
-
+        //暂不使用，已将物品分类移至ModTabs
     }
 
     // You can use SubscribeEvent and let the Event Bus discover methods to call
