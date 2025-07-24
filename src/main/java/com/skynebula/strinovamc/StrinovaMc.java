@@ -71,12 +71,7 @@ public class StrinovaMc
     // Add the example block item to the building blocks tab
     private void addCreative(BuildCreativeModeTabContentsEvent event)
     {
-        if (event.getTabKey() == CreativeModeTabs.BUILDING_BLOCKS)
-            event.accept(Moditems.DREAM_TOKENS);
-        //将理想币添加到建筑方块标签中
-        if (event.getTabKey() == CreativeModeTabs.BUILDING_BLOCKS)
-            event.accept(Moditems.BASESTRINGS);
-        //将基弦添加到建筑方块标签中
+
     }
 
     // You can use SubscribeEvent and let the Event Bus discover methods to call
