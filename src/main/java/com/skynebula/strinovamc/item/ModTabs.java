@@ -1,13 +1,11 @@
 package com.skynebula.strinovamc.item;
 
 import com.skynebula.strinovamc.StrinovaMc;
+import com.skynebula.strinovamc.block.ModBlocks;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.CreativeModeTabs;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
+import net.minecraft.world.item.*;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
@@ -28,6 +26,10 @@ public class ModTabs {
                         output.accept(new ItemStack(Moditems.DREAM_TOKENS.get()));
                         //将理想币添加到创造模式物品栏
                         output.accept(new ItemStack(Moditems.BABLO_CRYSTALS.get()));
+                        //将巴布洛晶核添加到创造模式物品栏
+
+                        output.accept(new ItemStack(ModBlocks.SIDESTEP_BLOCK.get()));
+
 
 
                     })

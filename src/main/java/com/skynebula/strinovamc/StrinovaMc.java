@@ -1,6 +1,7 @@
 package com.skynebula.strinovamc;
 
 import com.mojang.logging.LogUtils;
+import com.skynebula.strinovamc.block.ModBlocks;
 import com.skynebula.strinovamc.item.ModTabs;
 import com.skynebula.strinovamc.item.Moditems;
 import net.minecraft.client.Minecraft;
@@ -46,6 +47,8 @@ public class StrinovaMc
 
         Moditems.register(modEventBus);
         //为延迟注册进行登记，确保物品实际上被添加到游戏中
+
+        ModBlocks.register(modEventBus);
 
         modEventBus.addListener(this::commonSetup);
 
