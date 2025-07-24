@@ -1,6 +1,7 @@
 package com.skynebula.strinovamc;
 
 import com.mojang.logging.LogUtils;
+import com.skynebula.strinovamc.item.Moditems;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.food.FoodProperties;
@@ -36,11 +37,14 @@ public class StrinovaMc
     public static final String MOD_ID = "strinovamc";
     // Directly reference a slf4j logger
     private static final Logger LOGGER = LogUtils.getLogger();
+
     public StrinovaMc(FMLJavaModLoadingContext context)
     {
         IEventBus modEventBus = context.getModEventBus();
 
-        // Register the commonSetup method for modloading
+        Moditems.register(modEventBus);
+        //为延迟注册进行登记，确保物品实际上被添加到游戏中
+
         modEventBus.addListener(this::commonSetup);
 
         MinecraftForge.EVENT_BUS.register(this);
@@ -65,7 +69,12 @@ public class StrinovaMc
     // Add the example block item to the building blocks tab
     private void addCreative(BuildCreativeModeTabContentsEvent event)
     {
-
+        if (event.getTabKey() == CreativeModeTabs.BUILDING_BLOCKS)
+            event.accept(Moditems.DREAM_TOKENS);
+        //将理想币添加到建筑方块标签中
+        if (event.getTabKey() == CreativeModeTabs.BUILDING_BLOCKS)
+            event.accept(Moditems.BASESTRINGS);
+        //将基弦添加到建筑方块标签中
     }
 
     // You can use SubscribeEvent and let the Event Bus discover methods to call
