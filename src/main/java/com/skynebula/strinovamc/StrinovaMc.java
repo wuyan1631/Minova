@@ -1,6 +1,7 @@
 package com.skynebula.strinovamc;
 
 import com.mojang.logging.LogUtils;
+import com.skynebula.strinovamc.item.ModTabs;
 import com.skynebula.strinovamc.item.Moditems;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.registries.Registries;
@@ -33,14 +34,15 @@ import org.slf4j.Logger;
 @Mod(StrinovaMc.MOD_ID)
 public class StrinovaMc
 {
-    // Define mod id in a common place for everything to reference
     public static final String MOD_ID = "strinovamc";
-    // Directly reference a slf4j logger
     private static final Logger LOGGER = LogUtils.getLogger();
 
     public StrinovaMc(FMLJavaModLoadingContext context)
     {
         IEventBus modEventBus = context.getModEventBus();
+
+        ModTabs.register(modEventBus);
+        //注册Mod事件总线，以便ModTabs能够监听和响应Mod事件
 
         Moditems.register(modEventBus);
         //为延迟注册进行登记，确保物品实际上被添加到游戏中
