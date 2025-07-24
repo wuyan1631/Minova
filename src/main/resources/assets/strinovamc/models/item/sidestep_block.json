@@ -1,0 +1,7 @@
+{
+  "parent": "strinovamc:block/sidestep_block",
+  "textures":
+  {
+    "all": "strinovamc:block/sidestep_block"
+  }
+}
