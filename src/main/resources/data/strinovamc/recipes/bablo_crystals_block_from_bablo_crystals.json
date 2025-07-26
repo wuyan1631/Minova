@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients":
+
+    {
+      "item": "strinovamc:bablo_crystals_block",
+      "count": 1
+    }
+  ,
+  "result":
+  {
+    "item": "strinovamc:bablo_crystals",
+    "count": 9
+  }
+}

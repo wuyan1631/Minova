@@ -22,6 +22,8 @@ public class Moditems
         () -> new Item(new Item.Properties()));
     //注册巴布洛晶核
 
+    public static final RegistryObject<Item> KLBQLOGO = ITEMS.register("klbqlogo",
+            () -> new Item(new Item.Properties()));
 
     public static void register(IEventBus eventBus)
     {
