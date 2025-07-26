@@ -1,0 +1,9 @@
+{
+  "parent": "block/cube_bottom_top",
+  "textures":
+  {
+    "top": "strinovamc:block/bablo_crystals_block_end",
+    "bottom": "strinovamc:block/bablo_crystals_block_end",
+    "side": "strinovamc:block/bablo_crystals_block_side"
+  }
+}

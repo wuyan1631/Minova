@@ -28,6 +28,11 @@ public class ModBlocks
                     .sound(SoundType.STONE)
                     .lightLevel((state) -> 7)));
 
+    public static final RegistryObject<Block> BABLO_CRYSTALS_BLOCK = registryBlock("bablo_crystals_block",
+            () -> new Block(BlockBehaviour.Properties.of()
+                    .strength(2.0F, 2.0F)
+                    .sound(SoundType.METAL)
+                    .lightLevel((state) -> 0)));
 
     /*
      * 通用方块注册方法

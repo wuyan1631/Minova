@@ -1,9 +1,10 @@
 {
   "item.strinovamc.dream_tokens": "理想币",
   "item.strinovamc.basestrings": "基弦",
-  "item.strinovamc.bablo_crystals": "巴布洛晶核",
+  "item.strinovamc.bablo_crystals": "巴布洛晶体",
 
-  "block.strinovamc.bablo_crystals_block_ore": "巴布洛晶体矿",
+  "block.strinovamc.bablo_crystals_block_ore": "巴布洛晶体矿石",
+  "block.strinovamc.bablo_crystals_block": "巴布洛晶体块",
 
   "Creativetab.strinovamc_tab": "卡拉彼丘"
 }
