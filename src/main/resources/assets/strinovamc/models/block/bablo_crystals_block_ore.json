@@ -2,6 +2,6 @@
   "parent": "block/cube_all",
   "textures":
   {
-    "all": "strinovamc:block/sidestep_block"
+    "all": "strinovamc:block/bablo_crystals_block_ore"
   }
 }

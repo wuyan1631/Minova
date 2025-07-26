@@ -28,7 +28,8 @@ public class ModTabs {
                         output.accept(new ItemStack(Moditems.BABLO_CRYSTALS.get()));
                         //将巴布洛晶核添加到创造模式物品栏
 
-                        output.accept(new ItemStack(ModBlocks.SIDESTEP_BLOCK.get()));
+                        output.accept(new ItemStack(ModBlocks.BABLO_CRYSTALS_BLOCK_ORE.get()));
+                        //将巴布洛晶体矿石矿添加到创造模式物品栏
 
 
 
