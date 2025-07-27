@@ -1,4 +1,3 @@
-// C:\Modtext\stva\src\main\java\com\skynebula\strinovamc\key\StrinovamcKeybinds.java
 package com.skynebula.strinovamc.key;
 
 import com.mojang.blaze3d.platform.InputConstants;
@@ -11,17 +10,18 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import org.lwjgl.glfw.GLFW;
 
-/**
+/*
  * Strinovamc模组的按键绑定管理类
  * 负责注册和管理模组中使用的自定义按键绑定
  */
 @Mod.EventBusSubscriber(modid = StrinovaMc.MOD_ID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
-public class StrinovamcKeybinds {
+public class StrinovamcKeybinds
+{
     public static final String KEY_CATEGORY_STRINOVA = "key.category.strinovamc.strinova";
     public static final String KEY_STRING_TRANSFORMATION = "key.strinovamc.string_transformation";
     public static final String KEY_SKILL = "key.strinovamc.skill";
 
-    /**
+    /*
      * 字符串转换功能的按键映射
      * 默认绑定到V键，用于在游戏中触发字符串转换操作
      */
@@ -33,7 +33,7 @@ public class StrinovamcKeybinds {
             KEY_CATEGORY_STRINOVA
     );
 
-    /**
+    /*
      * 技能功能的按键映射
      * 默认绑定到C键，用于在游戏中触发技能操作
      */
@@ -45,7 +45,7 @@ public class StrinovamcKeybinds {
             KEY_CATEGORY_STRINOVA
     );
 
-    /**
+    /*
      * 注册按键绑定的事件处理方法
      * 当Forge注册按键映射事件触发时，将自定义按键绑定注册到游戏中
      *

@@ -1,4 +1,3 @@
-// 修复后的 CapabilityEventHandler.java
 package com.skynebula.strinovamc.capability;
 
 import com.skynebula.strinovamc.StrinovaMc;
@@ -15,7 +14,8 @@ import net.minecraftforge.fml.common.Mod;
  * 处理实体能力的附加和玩家克隆事件
  */
 @Mod.EventBusSubscriber(modid = StrinovaMc.MOD_ID)
-public class CapabilityEventHandler {
+public class CapabilityEventHandler
+{
 
     /*
      * 当实体附加能力时触发的事件处理方法
@@ -24,7 +24,8 @@ public class CapabilityEventHandler {
      * @param event 实体附加能力事件，包含要附加能力的实体对象
      */
     @SubscribeEvent
-    public static void onAttachCapabilities(AttachCapabilitiesEvent<Entity> event) {
+    public static void onAttachCapabilities(AttachCapabilitiesEvent<Entity> event)
+    {
         // 检查实体是否为玩家，如果是则附加字符串状态能力
         if (event.getObject() instanceof Player) {
             event.addCapability(
@@ -41,9 +42,11 @@ public class CapabilityEventHandler {
      * @param event 玩家克隆事件，包含原始玩家和新玩家的引用
      */
     @SubscribeEvent
-    public static void onPlayerClone(PlayerEvent.Clone event) {
+    public static void onPlayerClone(PlayerEvent.Clone event)
+    {
         // 只在玩家死亡时处理能力数据的转移
-        if (event.isWasDeath()) {
+        if (event.isWasDeath())
+        {
             // 将原始玩家的字符串状态能力数据复制到新玩家
             event.getOriginal().getCapability(StringStateCapability.INSTANCE).ifPresent(oldCap -> {
                 event.getEntity().getCapability(StringStateCapability.INSTANCE).ifPresent(newCap -> {

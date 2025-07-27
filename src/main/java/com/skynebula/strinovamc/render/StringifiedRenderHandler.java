@@ -1,4 +1,3 @@
-// C:\Modtext\stva\src\main\java\com\skynebula\strinovamc\render\StringifiedRenderHandler.java
 package com.skynebula.strinovamc.render;
 
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -22,12 +21,15 @@ public class StringifiedRenderHandler {
      * 在玩家渲染之前应用二维化效果
      */
     @SubscribeEvent
-    public static void onPlayerPreRender(RenderPlayerEvent.Pre event) {
+    public static void onPlayerPreRender(RenderPlayerEvent.Pre event)
+    {
         Player player = event.getEntity();
 
         // 检查玩家是否处于二维化状态
-        player.getCapability(StringStateCapability.INSTANCE).ifPresent(cap -> {
-            if (cap.isStringified()) {
+        player.getCapability(StringStateCapability.INSTANCE).ifPresent(cap ->
+        {
+            if (cap.isStringified())
+            {
                 // 应用二维化渲染效果
                 applyStringifiedRenderEffect(event, player);
             }
@@ -38,17 +40,20 @@ public class StringifiedRenderHandler {
      * 应用二维化渲染效果
      * 缩放玩家模型使其看起来扁平化
      */
-    private static void applyStringifiedRenderEffect(RenderPlayerEvent.Pre event, Player player) {
+    private static void applyStringifiedRenderEffect(RenderPlayerEvent.Pre event, Player player)
+    {
         PoseStack poseStack = event.getPoseStack();
 
         // 获取玩家的朝向，决定扁平化的方向
         float yaw = player.getYRot();
 
         // 根据玩家朝向应用不同的扁平化效果
-        if (isFacingForwardOrBack(yaw)) {
+        if (isFacingForwardOrBack(yaw))
+        {
             // 面向前后时，沿Z轴扁平化
             poseStack.scale(1.0f, 1.0f, 0.1f);
-        } else {
+        } else
+        {
             // 面向左右时，沿X轴扁平化
             poseStack.scale(0.1f, 1.0f, 1.0f);
         }
@@ -59,7 +64,8 @@ public class StringifiedRenderHandler {
      * @param yaw 玩家的偏航角
      * @return 如果面向前后返回true，否则返回false
      */
-    private static boolean isFacingForwardOrBack(float yaw) {
+    private static boolean isFacingForwardOrBack(float yaw)
+    {
         // 将角度标准化到0-360范围内
         yaw = yaw % 360;
         if (yaw < 0) yaw += 360;
