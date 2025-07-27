@@ -8,14 +8,14 @@ import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
-/**
+/*
  * 二维化物理处理器
  * 处理玩家在二维化状态下的物理特性，如碰撞体积调整
  */
 @Mod.EventBusSubscriber
 public class StringifiedPhysicsHandler {
 
-    /**
+    /*
      * 玩家加入世界事件处理
      * 确保玩家的碰撞体积正确设置
      */
@@ -32,7 +32,7 @@ public class StringifiedPhysicsHandler {
         }
     }
 
-    /**
+    /*
      * 玩家tick事件处理
      * 每个tick检查并更新玩家的物理状态
      */
@@ -54,7 +54,7 @@ public class StringifiedPhysicsHandler {
         }
     }
 
-    /**
+    /*
      * 应用二维化物理效果
      * 调整玩家的碰撞体积使其扁平化
      */
@@ -76,7 +76,7 @@ public class StringifiedPhysicsHandler {
         }
     }
 
-    /**
+    /*
      * 恢复正常的物理效果
      * 将玩家的碰撞体积恢复到正常状态
      */
@@ -86,7 +86,7 @@ public class StringifiedPhysicsHandler {
         player.refreshDimensions();
     }
 
-    /**
+    /*
      * 判断玩家是否面向前后方向
      * @param yaw 玩家的偏航角
      * @return 如果面向前后返回true，否则返回false

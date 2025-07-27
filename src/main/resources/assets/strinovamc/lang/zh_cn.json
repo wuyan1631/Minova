@@ -11,8 +11,13 @@
   "key.category.strinovamc.strinova": "Strinova MC",
   "key.strinovamc.string_transformation": "弦化",
   "key.strinovamc.skill": "使用技能",
-  "message.strinovamc.string_transformation_activated": "进入弦化状态",
-  "message.strinovamc.string_transformation_deactivated": "退出弦化状态",
-  "message.strinovamc.skill_activated": "技能已激活",
-  "message.strinovamc.cannot_stringify": "由于%s，无法进行弦化操作!"
+  "message.strinovamc.string_transformation_activated": "进入弦化状态！身体变得扁平化。",
+  "message.strinovamc.string_transformation_deactivated": "退出弦化状态！身体恢复正常。",
+  "message.strinovamc.skill_activated": "技能已激活!",
+  "message.strinovamc.cannot_stringify": "由于%s，无法进行弦化操作!",
+  "message.strinovamc.cannot_interact_while_stringified": "弦化状态下无法与方块交互!",
+  "message.strinovamc.cannot_use_item_while_stringified": "弦化状态下无法使用物品!",
+  "message.strinovamc.cannot_break_block_while_stringified": "弦化状态下无法破坏方块!",
+  "message.strinovamc.cannot_interact_entity_while_stringified": "弦化状态下无法与实体交互!",
+  "message.strinovamc.cannot_attack_entity_while_stringified": "弦化状态下无法攻击实体!"
 }

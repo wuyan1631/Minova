@@ -11,8 +11,13 @@
   "key.category.strinovamc.strinova": "Strinova MC",
   "key.strinovamc.string_transformation": "String Transformation",
   "key.strinovamc.skill": "Use Skill",
-  "message.strinovamc.string_transformation_activated": "Entered stringified state!",
-  "message.strinovamc.string_transformation_deactivated": "Exited stringified state!",
+  "message.strinovamc.string_transformation_activated": "Entered stringified state! Body becomes flat.",
+  "message.strinovamc.string_transformation_deactivated": "Exited stringified state! Body restored to normal.",
   "message.strinovamc.skill_activated": "Skill activated!",
-  "message.strinovamc.cannot_stringify": "Cannot stringify due to %s!"
+  "message.strinovamc.cannot_stringify": "Cannot stringify due to %s!",
+  "message.strinovamc.cannot_interact_while_stringified": "Cannot interact with blocks while stringified!",
+  "message.strinovamc.cannot_use_item_while_stringified": "Cannot use items while stringified!",
+  "message.strinovamc.cannot_break_block_while_stringified": "Cannot break blocks while stringified!",
+  "message.strinovamc.cannot_interact_entity_while_stringified": "Cannot interact with entities while stringified!",
+  "message.strinovamc.cannot_attack_entity_while_stringified": "Cannot attack entities while stringified!"
 }
