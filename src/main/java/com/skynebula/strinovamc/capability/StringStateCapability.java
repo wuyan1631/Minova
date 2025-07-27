@@ -1,5 +1,4 @@
 // C:\Modtext\stva\src\main\java\com\skynebula\strinovamc\capability\StringStateCapability.java
-// C:\Modtext\stva\src\main\java\com\skynebula\strinovamc\capability\StringStateCapability.java
 package com.skynebula.strinovamc.capability;
 
 import net.minecraft.nbt.CompoundTag;
@@ -7,7 +6,7 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.common.capabilities.CapabilityToken;
 
-/*
+/**
  * 字符串状态能力类
  * 用于管理玩家的二维化状态
  */

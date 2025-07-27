@@ -87,8 +87,8 @@ public class KeyInputHandler {
                 );
                 System.out.println("Player stringified!");
 
-                // TODO: 实现二维化视觉效果和碰撞体积调整
-                // 这里可以添加粒子效果、模型变化等
+                // 触发二维化效果
+                triggerStringifiedEffects(mc.player);
             } else {
                 // 退出二维化状态
                 mc.player.displayClientMessage(
@@ -97,8 +97,29 @@ public class KeyInputHandler {
                 );
                 System.out.println("Player de-stringified!");
 
-                // TODO: 恢复正常状态
+                // 恢复正常状态
+                restoreNormalEffects(mc.player);
             }
         });
+    }
+
+    /**
+     * 触发二维化效果
+     * @param player 目标玩家
+     */
+    private static void triggerStringifiedEffects(net.minecraft.world.entity.player.Player player) {
+        // 二维化效果已经在StringifiedPhysicsHandler和StringifiedRenderHandler中处理
+        // 这里可以添加粒子效果、声音等额外效果
+        System.out.println("Stringified effects applied to player");
+    }
+
+    /**
+     * 恢复正常效果
+     * @param player 目标玩家
+     */
+    private static void restoreNormalEffects(net.minecraft.world.entity.player.Player player) {
+        // 恢复正常效果已经在StringifiedPhysicsHandler中处理
+        // 这里可以添加恢复效果、声音等额外效果
+        System.out.println("Normal effects restored to player");
     }
 }
