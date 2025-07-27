@@ -24,15 +24,15 @@ public class ModBlocks
     // 注册 sidestep_block 方块，复制铁块的属性
     public static final RegistryObject<Block> BABLO_CRYSTALS_BLOCK_ORE = registryBlock("bablo_crystals_block_ore",
             () -> new Block(BlockBehaviour.Properties.of()
-                    .strength(2.0F, 2.0F)
+                    .strength(3.0F, 3.0F)
                     .sound(SoundType.STONE)
                     .lightLevel((state) -> 7)));
 
     public static final RegistryObject<Block> BABLO_CRYSTALS_BLOCK = registryBlock("bablo_crystals_block",
             () -> new Block(BlockBehaviour.Properties.of()
-                    .strength(2.0F, 2.0F)
+                    .strength(3.0F, 3.0F)
                     .sound(SoundType.METAL)
-                    .lightLevel((state) -> 0)));
+                    .lightLevel((state) -> 4)));
 
     /*
      * 通用方块注册方法
