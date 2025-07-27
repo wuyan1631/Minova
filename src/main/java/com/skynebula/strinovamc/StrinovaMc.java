@@ -30,6 +30,10 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import org.slf4j.Logger;
+import com.skynebula.strinovamc.capability.StringStateCapability;
+import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
+
+
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(StrinovaMc.MOD_ID)
@@ -83,6 +87,11 @@ public class StrinovaMc
     {
         // Do something when the server starts
         LOGGER.info("HELLO from server starting");
+    }
+
+    @SubscribeEvent
+    public static void registerCapabilities(RegisterCapabilitiesEvent event) {
+        event.register(StringStateCapability.class);
     }
 
     // You can use EventBusSubscriber to automatically register all static methods in the class annotated with @SubscribeEvent
