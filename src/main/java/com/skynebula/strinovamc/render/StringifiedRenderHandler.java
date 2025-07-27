@@ -9,12 +9,28 @@ import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+
 /*
  * 二维化渲染处理器
  * 处理玩家在二维化状态下的渲染效果
  */
 @Mod.EventBusSubscriber
 public class StringifiedRenderHandler {
+
+    // 添加朝向状态跟踪变量
+    private static final Map<UUID, FacingDirection> lastDirectionMap = new HashMap<>();
+    private static final Map<UUID, Float> transitionProgressMap = new HashMap<>();
+
+    // 调整过渡速度（值越小过渡越慢）
+    private static final float TRANSITION_SPEED = 0.05f;
+
+    // 添加朝向枚举
+    enum FacingDirection {
+        FORWARD_BACK, LEFT_RIGHT
+    }
 
     /*
      * 玩家渲染前事件处理
@@ -26,12 +42,13 @@ public class StringifiedRenderHandler {
         Player player = event.getEntity();
 
         // 检查玩家是否处于二维化状态
-        player.getCapability(StringStateCapability.INSTANCE).ifPresent(cap ->
-        {
-            if (cap.isStringified())
-            {
+        player.getCapability(StringStateCapability.INSTANCE).ifPresent(cap -> {
+            if (cap.isStringified()) {
                 // 应用二维化渲染效果
                 applyStringifiedRenderEffect(event, player);
+            } else {
+                // 如果玩家不在弦化状态，清理其数据防止内存泄漏
+                cleanUpPlayerData(player.getUUID());
             }
         });
     }
@@ -46,17 +63,80 @@ public class StringifiedRenderHandler {
 
         // 获取玩家的朝向，决定扁平化的方向
         float yaw = player.getYRot();
+        UUID playerId = player.getUUID();
 
-        // 根据玩家朝向应用不同的扁平化效果
-        if (isFacingForwardOrBack(yaw))
-        {
-            // 面向前后时，沿Z轴扁平化
-            poseStack.scale(1.0f, 1.0f, 0.1f);
-        } else
-        {
-            // 面向左右时，沿X轴扁平化
-            poseStack.scale(0.1f, 1.0f, 1.0f);
+        // 获取当前朝向状态
+        FacingDirection currentDirection = isFacingForwardOrBack(yaw) ? FacingDirection.FORWARD_BACK : FacingDirection.LEFT_RIGHT;
+        FacingDirection lastDirection = lastDirectionMap.getOrDefault(playerId, currentDirection);
+
+        // 检查是否需要开始过渡
+        if (lastDirection != currentDirection) {
+            // 方向发生变化，开始过渡
+            transitionProgressMap.putIfAbsent(playerId, 0f);
         }
+
+        // 更新最后的朝向记录
+        lastDirectionMap.put(playerId, currentDirection);
+
+        // 检查是否正在进行过渡动画
+        Float transitionProgress = transitionProgressMap.get(playerId);
+        if (transitionProgress != null && transitionProgress < 1.0f) {
+            // 正在过渡中，应用过渡效果
+            applyTransitionEffect(poseStack, lastDirection, currentDirection, transitionProgress);
+
+            // 更新过渡进度
+            transitionProgressMap.put(playerId, Math.min(transitionProgress + 0.1f, 1.0f));
+        } else {
+            // 没有过渡动画，应用正常的扁平化效果
+            if (currentDirection == FacingDirection.FORWARD_BACK) {
+                // 面向前后时，沿Z轴扁平化
+                poseStack.scale(1.0f, 1.0f, 0.1f);
+            } else {
+                // 面向左右时，沿X轴扁平化
+                poseStack.scale(0.1f, 1.0f, 1.0f);
+            }
+
+            // 如果过渡已完成，移除过渡进度记录
+            if (transitionProgress != null && transitionProgress >= 1.0f) {
+                transitionProgressMap.remove(playerId);
+            }
+        }
+    }
+
+    /*
+     * 应用过渡效果
+     * 在玩家朝向改变时平滑地过渡扁平化方向
+     */
+    private static void applyTransitionEffect(PoseStack poseStack, FacingDirection from, FacingDirection to, float progress) {
+        float scale_x, scale_y, scale_z;
+
+        if (from == FacingDirection.FORWARD_BACK && to == FacingDirection.LEFT_RIGHT) {
+            // 从前后向左右过渡
+            scale_x = 1.0f - 0.9f * progress;
+            scale_y = 1.0f;
+            scale_z = 0.1f + 0.9f * progress;
+        } else if (from == FacingDirection.LEFT_RIGHT && to == FacingDirection.FORWARD_BACK) {
+            // 从左右向前后过渡
+            scale_x = 0.1f + 0.9f * progress;
+            scale_y = 1.0f;
+            scale_z = 1.0f - 0.9f * progress;
+        } else {
+            // 默认情况（不应该发生）
+            scale_x = 0.1f;
+            scale_y = 1.0f;
+            scale_z = 0.1f;
+        }
+
+        poseStack.scale(scale_x, scale_y, scale_z);
+    }
+
+    /*
+     * 清理指定玩家的数据
+     * 防止内存泄漏
+     */
+    private static void cleanUpPlayerData(UUID playerId) {
+        lastDirectionMap.remove(playerId);
+        transitionProgressMap.remove(playerId);
     }
 
     /*
