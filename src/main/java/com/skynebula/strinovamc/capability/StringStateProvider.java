@@ -51,10 +51,7 @@ public class StringStateProvider implements ICapabilityProvider, INBTSerializabl
      */
     @Override
     public CompoundTag serializeNBT() {
-        CompoundTag nbt = new CompoundTag();
-        // 序列化字符串状态能力
-        createCapability().serializeNBT();
-        return nbt;
+        return createCapability().serializeNBT();
     }
 
     /*

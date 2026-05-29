@@ -3,6 +3,7 @@ package com.skynebula.strinovamc.key;
 
 import com.skynebula.strinovamc.StrinovaMc;
 import com.skynebula.strinovamc.capability.StringStateCapability;
+import net.minecraft.client.CameraType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.effect.MobEffects;
@@ -80,7 +81,6 @@ public class KeyInputHandler
         //     return;
         // }
 
-        // 切换二维化状态
         mc.player.getCapability(StringStateCapability.INSTANCE).ifPresent(cap ->
         {
             boolean newState = !cap.isStringified();
@@ -88,26 +88,18 @@ public class KeyInputHandler
 
             if (newState)
             {
-                // 进入二维化状态
                 mc.player.displayClientMessage(
                     Component.translatable("message.strinovamc.string_transformation_activated"),
                     true
                 );
-                System.out.println("Player stringified!");
-
-                // 触发二维化效果
                 triggerStringifiedEffects(mc.player);
             }
             else
             {
-                // 退出二维化状态
                 mc.player.displayClientMessage(
                     Component.translatable("message.strinovamc.string_transformation_deactivated"),
                     true
                 );
-                System.out.println("Player de-stringified!");
-
-                // 恢复正常状态
                 restoreNormalEffects(mc.player);
             }
         });
@@ -119,8 +111,7 @@ public class KeyInputHandler
      */
     private static void triggerStringifiedEffects(net.minecraft.world.entity.player.Player player)
     {
-        // 二维化效果已经在StringifiedPhysicsHandler和StringifiedRenderHandler中处理
-        // 这里可以添加粒子效果、声音等额外效果
+        Minecraft.getInstance().options.setCameraType(CameraType.THIRD_PERSON_BACK);
         System.out.println("Stringified effects applied to player");
     }
 
@@ -130,8 +121,8 @@ public class KeyInputHandler
      */
     private static void restoreNormalEffects(net.minecraft.world.entity.player.Player player)
     {
-        // 恢复正常效果已经在StringifiedPhysicsHandler中处理
-        // 这里可以添加恢复效果、声音等额外效果
+        Minecraft.getInstance().options.setCameraType(CameraType.FIRST_PERSON);
         System.out.println("Normal effects restored to player");
     }
+
 }

@@ -51,5 +51,7 @@
   "message.strinovamc.cannot_use_item_while_stringified": "弦化状态下无法使用物品!",
   "message.strinovamc.cannot_break_block_while_stringified": "弦化状态下无法破坏方块!",
   "message.strinovamc.cannot_interact_entity_while_stringified": "弦化状态下无法与实体交互!",
-  "message.strinovamc.cannot_attack_entity_while_stringified": "弦化状态下无法攻击实体!"
+  "message.strinovamc.cannot_attack_entity_while_stringified": "弦化状态下无法攻击实体!",
+
+  "effect.strinovamc.kaqiu_body": "卡丘身"
 }
