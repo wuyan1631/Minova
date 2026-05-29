@@ -2,8 +2,7 @@ package com.skynebula.strinovamc.render;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.skynebula.strinovamc.capability.StringStateCapability;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.player.AbstractClientPlayer;
+
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -16,8 +15,8 @@ import net.minecraftforge.fml.common.Mod;
 @Mod.EventBusSubscriber
 public class StringifiedRenderHandler {
 
-    // 存储每个玩家最后的移动方向
-    private static final java.util.Map<Player, String> lastDirectionMap = new java.util.HashMap<>();
+    // 存储每个玩家最后记录的视角方向
+    private static String lastDirection = "north";
 
     /*
      * 玩家渲染前事件处理
@@ -41,38 +40,26 @@ public class StringifiedRenderHandler {
 
     /*
      * 应用二维化渲染效果
-     * 缩放玩家模型使其看起来扁平化
+     * 根据玩家视角方向（yaw）扁平化模型
      */
     private static void applyStringifiedRenderEffect(RenderPlayerEvent.Pre event, Player player)
     {
         PoseStack poseStack = event.getPoseStack();
 
-        // 获取玩家的移动方向，决定扁平化的方向
-        String direction = getPlayerMovementDirection(player);
+        // 根据玩家视角方向（yaw）决定扁平化方向
+        String direction = getViewDirection(player);
+        lastDirection = direction;
 
-        // 如果有移动输入，更新最后的方向
-        if (!"none".equals(direction)) {
-            lastDirectionMap.put(player, direction);
-        }
-        // 如果没有移动输入，使用最后记录的方向
-        else if (lastDirectionMap.containsKey(player)) {
-            direction = lastDirectionMap.get(player);
-        }
-        // 如果是第一次且没有移动输入，使用默认方向
-        else {
-            direction = "north"; // 默认方向
-        }
-
-        // 根据玩家移动方向应用不同的扁平化效果
+        // 根据视角方向应用不同的扁平化效果
         switch (direction) {
             case "north":
             case "south":
-                // 面向南北时，沿Z轴扁平化
+                // 看向南北时，沿Z轴扁平化
                 poseStack.scale(1.0f, 1.0f, 0.1f);
                 break;
             case "east":
             case "west":
-                // 面向东西时，沿X轴扁平化
+                // 看向东西时，沿X轴扁平化
                 poseStack.scale(0.1f, 1.0f, 1.0f);
                 break;
             default:
@@ -83,27 +70,25 @@ public class StringifiedRenderHandler {
     }
 
     /*
-     * 获取玩家的移动方向
+     * 获取玩家的视角方向（基于 yaw 角度）
      * @param player 玩家实体
-     * @return 玩家的主要移动方向 ("north", "south", "east", "west", "none")
+     * @return 玩家的视角方向 ("north", "south", "east", "west")
      */
-    private static String getPlayerMovementDirection(Player player)
+    private static String getViewDirection(Player player)
     {
-        double forward = player.zza; // 前后移动 (W/S)
-        double strafe = player.xxa;  // 左右移动 (A/D)
+        float yaw = player.getYRot() % 360;
+        if (yaw < 0) yaw += 360;
 
-        // 如果没有移动输入，则返回none
-        if (Math.abs(forward) < 0.1 && Math.abs(strafe) < 0.1) {
-            return "none";
-        }
-
-        // 确定主要移动方向
-        if (Math.abs(forward) > Math.abs(strafe)) {
-            // 主要为前后移动
-            return forward > 0 ? "south" : "north";
+        // 将 yaw 角度映射到四个方向
+        // yaw: 0 = south, 90 = west, 180 = north, 270 = east
+        if (yaw >= 45 && yaw < 135) {
+            return "west";   // 实际面向西
+        } else if (yaw >= 135 && yaw < 225) {
+            return "north";  // 实际面向北
+        } else if (yaw >= 225 && yaw < 315) {
+            return "east";   // 实际面向东
         } else {
-            // 主要为左右移动
-            return strafe > 0 ? "east" : "west";
+            return "south";  // 实际面向南
         }
     }
 }
