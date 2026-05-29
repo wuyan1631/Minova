@@ -51,7 +51,5 @@
   "message.strinovamc.cannot_use_item_while_stringified": "Cannot use items while stringified!",
   "message.strinovamc.cannot_break_block_while_stringified": "Cannot break blocks while stringified!",
   "message.strinovamc.cannot_interact_entity_while_stringified": "Cannot interact with entities while stringified!",
-  "message.strinovamc.cannot_attack_entity_while_stringified": "Cannot attack entities while stringified!",
-
-  "effect.strinovamc.kaqiu_body": "KaQiu Body"
+  "message.strinovamc.cannot_attack_entity_while_stringified": "Cannot attack entities while stringified!"
 }

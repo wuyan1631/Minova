@@ -3,7 +3,6 @@ package com.skynebula.strinovamc.key;
 
 import com.skynebula.strinovamc.StrinovaMc;
 import com.skynebula.strinovamc.capability.StringStateCapability;
-import net.minecraft.client.CameraType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.effect.MobEffects;
@@ -28,24 +27,27 @@ public class KeyInputHandler
     @SubscribeEvent
     public static void onKeyInput(TickEvent.ClientTickEvent event)
     {
-        if (event.phase == TickEvent.Phase.START && Minecraft.getInstance().player != null) {
-            var player = Minecraft.getInstance().player;
-
+        // 只在tick阶段为END时处理，并确保玩家对象不为空
+        if (event.phase == TickEvent.Phase.END && Minecraft.getInstance().player != null) {
+            // 检查弦化按键是否被按下
             if (StrinovamcKeybinds.STRING_TRANSFORMATION_KEY.consumeClick())
             {
+                // 处理弦化按键逻辑
                 handleStringTransformation();
             }
 
+            // 检查技能按键是否被按下
             if (StrinovamcKeybinds.SKILL_KEY.consumeClick())
             {
-                player.displayClientMessage(
+                // 处理技能按键逻辑
+                Minecraft.getInstance().player.displayClientMessage(
                     Component.translatable("message.strinovamc.skill_activated"),
                     true
                 );
+
+                // 在这里添加技能的实际功能实现
                 System.out.println("Skill Key Pressed!");
             }
-
-
         }
     }
 
@@ -86,11 +88,26 @@ public class KeyInputHandler
 
             if (newState)
             {
+                // 进入二维化状态
+                mc.player.displayClientMessage(
+                    Component.translatable("message.strinovamc.string_transformation_activated"),
+                    true
+                );
+                System.out.println("Player stringified!");
+
+                // 触发二维化效果
                 triggerStringifiedEffects(mc.player);
             }
             else
             {
-                cap.setSuperStringified(false);
+                // 退出二维化状态
+                mc.player.displayClientMessage(
+                    Component.translatable("message.strinovamc.string_transformation_deactivated"),
+                    true
+                );
+                System.out.println("Player de-stringified!");
+
+                // 恢复正常状态
                 restoreNormalEffects(mc.player);
             }
         });
@@ -102,13 +119,19 @@ public class KeyInputHandler
      */
     private static void triggerStringifiedEffects(net.minecraft.world.entity.player.Player player)
     {
-        Minecraft.getInstance().options.setCameraType(CameraType.THIRD_PERSON_BACK);
+        // 二维化效果已经在StringifiedPhysicsHandler和StringifiedRenderHandler中处理
+        // 这里可以添加粒子效果、声音等额外效果
         System.out.println("Stringified effects applied to player");
     }
 
+    /*
+     * 恢复正常效果
+     * @param player 目标玩家
+     */
     private static void restoreNormalEffects(net.minecraft.world.entity.player.Player player)
     {
-        Minecraft.getInstance().options.setCameraType(CameraType.FIRST_PERSON);
+        // 恢复正常效果已经在StringifiedPhysicsHandler中处理
+        // 这里可以添加恢复效果、声音等额外效果
         System.out.println("Normal effects restored to player");
     }
 }

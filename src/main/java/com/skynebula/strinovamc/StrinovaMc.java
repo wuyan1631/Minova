@@ -2,7 +2,6 @@ package com.skynebula.strinovamc;
 
 import com.mojang.logging.LogUtils;
 import com.skynebula.strinovamc.block.ModBlocks;
-import com.skynebula.strinovamc.effect.ModEffects;
 import com.skynebula.strinovamc.item.ModTabs;
 import com.skynebula.strinovamc.item.Moditems;
 import net.minecraft.client.Minecraft;
@@ -54,7 +53,6 @@ public class StrinovaMc
         //为延迟注册进行登记，确保物品实际上被添加到游戏中
 
         ModBlocks.register(modEventBus);
-        ModEffects.register(modEventBus);
 
         modEventBus.addListener(this::commonSetup);
 
@@ -66,6 +64,7 @@ public class StrinovaMc
 
     private void commonSetup(final FMLCommonSetupEvent event)
     {
+        // Some common setup code
         LOGGER.info("HELLO FROM COMMON SETUP");
 
         if (Config.logDirtBlock)

@@ -16,8 +16,6 @@ public class StringStateCapability
 
     // 是否处于二维化状态
     private boolean isStringified = false;
-    // 是否处于超弦体状态
-    private boolean isSuperStringified = false;
 
     // 获取二维化状态
     public boolean isStringified() {
@@ -29,22 +27,11 @@ public class StringStateCapability
         this.isStringified = stringified;
     }
 
-    // 获取超弦体状态
-    public boolean isSuperStringified() {
-        return isSuperStringified;
-    }
-
-    // 设置超弦体状态
-    public void setSuperStringified(boolean superStringified) {
-        this.isSuperStringified = superStringified;
-    }
-
     // 序列化到NBT
     public CompoundTag serializeNBT()
     {
         CompoundTag nbt = new CompoundTag();
         nbt.putBoolean("IsStringified", isStringified);
-        nbt.putBoolean("IsSuperStringified", isSuperStringified);
         return nbt;
     }
 
@@ -52,6 +39,5 @@ public class StringStateCapability
     public void deserializeNBT(CompoundTag nbt)
     {
         isStringified = nbt.getBoolean("IsStringified");
-        isSuperStringified = nbt.getBoolean("IsSuperStringified");
     }
 }
