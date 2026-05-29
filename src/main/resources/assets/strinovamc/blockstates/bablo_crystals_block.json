@@ -1,0 +1,9 @@
+{
+  "variants":
+  {
+    "":
+    {
+      "model": "strinovamc:block/bablo_crystals_block"
+    }
+  }
+}

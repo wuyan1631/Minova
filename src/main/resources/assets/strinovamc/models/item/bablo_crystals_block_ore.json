@@ -1,0 +1,7 @@
+{
+  "parent": "strinovamc:block/bablo_crystals_block_ore",
+  "textures":
+  {
+    "all": "strinovamc:block/bablo_crystals_block_ore"
+  }
+}
