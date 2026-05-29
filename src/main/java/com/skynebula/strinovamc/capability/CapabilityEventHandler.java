@@ -48,9 +48,10 @@ public class CapabilityEventHandler
         if (event.isWasDeath())
         {
             // 将原始玩家的字符串状态能力数据复制到新玩家
-            event.getOriginal().getCapability(StringStateCapability.INSTANCE).ifPresent(oldCap -> {
+                event.getOriginal().getCapability(StringStateCapability.INSTANCE).ifPresent(oldCap -> {
                 event.getEntity().getCapability(StringStateCapability.INSTANCE).ifPresent(newCap -> {
                     newCap.setStringified(oldCap.isStringified());
+                    newCap.setSuperStringified(oldCap.isSuperStringified());
                 });
             });
         }

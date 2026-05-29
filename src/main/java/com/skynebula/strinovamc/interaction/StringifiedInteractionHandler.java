@@ -1,6 +1,7 @@
 package com.skynebula.strinovamc.interaction;
 
 import com.skynebula.strinovamc.capability.StringStateCapability;
+import com.skynebula.strinovamc.item.Moditems;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -55,19 +56,28 @@ public class StringifiedInteractionHandler
         Player player = event.getEntity();
         ItemStack stack = event.getItemStack();
 
-        // 检查玩家是否处于二维化状态
+        if (stack.getItem() == Moditems.BABLO_CRYSTALS.get() && stack.getCount() >= 64)
+        {
+            if (!player.level().isClientSide())
+            {
+                player.getCapability(StringStateCapability.INSTANCE).ifPresent(cap ->
+                {
+                    if (!cap.isSuperStringified())
+                    {
+                        cap.setSuperStringified(true);
+                        stack.shrink(64);
+                    }
+                });
+            }
+            event.setCanceled(true);
+            return;
+        }
+
         player.getCapability(StringStateCapability.INSTANCE).ifPresent(cap ->
         {
             if (cap.isStringified())
             {
-                // 允许某些特殊物品的使用（可选）
-                // if (stack.getItem() instanceof SpecialItem) {
-                //     return; // 允许使用特殊物品
-                // }
-
-                // 取消交互事件
                 event.setCanceled(true);
-                // 向玩家显示提示信息（仅在客户端显示）
                 if (!player.level().isClientSide())
                 {
                     player.displayClientMessage(

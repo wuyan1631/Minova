@@ -1,11 +1,17 @@
 package com.skynebula.strinovamc.physics;
 
 import com.skynebula.strinovamc.capability.StringStateCapability;
+import com.skynebula.strinovamc.effect.ModEffects;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 /*
  * 二维化物理处理器
@@ -36,6 +42,8 @@ public class StringifiedPhysicsHandler
         }
     }
 
+    private static final Map<UUID, Double> lastMotionY = new HashMap<>();
+
     /*
      * 玩家tick事件处理
      * 每个tick检查并更新玩家的物理状态
@@ -43,22 +51,40 @@ public class StringifiedPhysicsHandler
     @SubscribeEvent
     public static void onPlayerTick(LivingEvent.LivingTickEvent event)
     {
-        if (event.getEntity() instanceof Player player && event.getEntity().level().isClientSide() == false)
+        if (event.getEntity() instanceof Player player && !player.level().isClientSide())
         {
-            if (event.getEntity().tickCount % 5 == 0) { // 每5个tick更新一次以提高性能
-                // 检查玩家是否处于二维化状态
+            if (player.tickCount % 5 == 0) {
                 player.getCapability(StringStateCapability.INSTANCE).ifPresent(cap ->
                 {
                     if (cap.isStringified())
                     {
-                        // 应用二维化物理效果
                         applyStringifiedPhysics(player);
                     } else {
-                        // 恢复正常的碰撞体积
                         restoreNormalPhysics(player);
+                    }
+
+                    if (cap.isSuperStringified())
+                    {
+                        player.addEffect(new MobEffectInstance(ModEffects.KAQIU_BODY.get(), 30, 0, false, false, true));
+                    }
+                    else
+                    {
+                        player.removeEffect(ModEffects.KAQIU_BODY.get());
                     }
                 });
             }
+
+            double currentY = player.getDeltaMovement().y();
+            Double prevY = lastMotionY.get(player.getUUID());
+
+            if (prevY != null && currentY > 0.3 && prevY <= 0.1 && !player.onGround()
+                    && player.hasEffect(ModEffects.KAQIU_BODY.get()))
+            {
+                player.setDeltaMovement(player.getDeltaMovement().x(), currentY * 1.5, player.getDeltaMovement().z());
+                player.hurtMarked = true;
+            }
+
+            lastMotionY.put(player.getUUID(), currentY);
         }
     }
 
@@ -112,4 +138,5 @@ public class StringifiedPhysicsHandler
         // 面向前后：角度在45-135度和225-315度之间
         return (yaw >= 45 && yaw <= 135) || (yaw >= 225 && yaw <= 315);
     }
+
 }
