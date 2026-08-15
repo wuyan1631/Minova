@@ -1,7 +1,9 @@
 package com.skynebula.strinovamc.render;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Axis;
 import com.skynebula.strinovamc.capability.StringStateCapability;
+import net.minecraft.client.Minecraft;
 
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.client.event.RenderPlayerEvent;
@@ -14,9 +16,6 @@ import net.minecraftforge.fml.common.Mod;
  */
 @Mod.EventBusSubscriber
 public class StringifiedRenderHandler {
-
-    // 存储每个玩家最后记录的视角方向
-    private static String lastDirection = "north";
 
     /*
      * 玩家渲染前事件处理
@@ -40,7 +39,8 @@ public class StringifiedRenderHandler {
 
     /*
      * 应用二维化渲染效果
-     * 根据玩家视角方向（yaw）扁平化模型
+     * 像卡拉彼丘一样把模型压成纸片, 且纸片正面始终朝向相机
+     * (先按相机与玩家朝向的差旋转, 再沿玩家朝向轴压扁, 抵消越肩相机的侧向偏移)
      */
     private static void applyStringifiedRenderEffect(RenderPlayerEvent.Pre event, Player player)
     {
@@ -48,7 +48,10 @@ public class StringifiedRenderHandler {
 
         // 根据玩家视角方向（yaw）决定扁平化方向
         String direction = getViewDirection(player);
-        lastDirection = direction;
+
+        // 让纸片正面朝向相机: 旋转量 = 相机朝向 - 玩家朝向
+        float cameraYaw = Minecraft.getInstance().gameRenderer.getMainCamera().getYRot();
+        poseStack.mulPose(Axis.YP.rotationDegrees(cameraYaw - player.getYRot()));
 
         // 根据视角方向应用不同的扁平化效果
         switch (direction) {

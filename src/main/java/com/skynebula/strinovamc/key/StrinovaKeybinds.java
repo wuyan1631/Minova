@@ -1,10 +1,13 @@
 package com.skynebula.strinovamc.key;
 
 import com.mojang.blaze3d.platform.InputConstants;
+import com.mojang.logging.LogUtils;
 import com.skynebula.strinovamc.StrinovaMc;
+import com.skynebula.strinovamc.capability.StringStateCapability;
 import com.skynebula.strinovamc.client.gui.screens.StringifiedUIScreen;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
+import net.minecraft.network.chat.Component;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
@@ -12,84 +15,95 @@ import net.minecraftforge.client.settings.KeyConflictContext;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import org.lwjgl.glfw.GLFW;
+import org.slf4j.Logger;
 
 /*
  * Strinovamc模组的按键绑定管理类
  * 负责注册和管理模组中使用的自定义按键绑定
  */
 @Mod.EventBusSubscriber(modid = StrinovaMc.MOD_ID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
-public class StrinovamcKeybinds
+public class StrinovaKeybinds
 {
+    private static final Logger LOGGER = LogUtils.getLogger();
+
     public static final String KEY_CATEGORY_STRINOVA = "key.category.strinovamc.strinova";
+    public static final String KEY_STRINOVA_MODE = "key.strinovamc.strinova_mode";
     public static final String KEY_STRING_TRANSFORMATION = "key.strinovamc.string_transformation";
     public static final String KEY_SKILL = "key.strinovamc.skill";
     public static final String KEY_OPEN_UI = "key.strinovamc.open_ui";
 
-    /*
-     * 字符串转换功能的按键映射
-     * 默认绑定到V键，用于在游戏中触发字符串转换操作
-     */
+    // L键: Strinova模式总开关(未开启时模组内容不可用, 开启时锁定越肩视角)
+    public static final KeyMapping STRINOVA_MODE_KEY = new KeyMapping(
+            KEY_STRINOVA_MODE,
+            KeyConflictContext.IN_GAME,
+            InputConstants.Type.KEYSYM,
+            GLFW.GLFW_KEY_L,
+            KEY_CATEGORY_STRINOVA
+    );
+
+    // V键: 弦化
     public static final KeyMapping STRING_TRANSFORMATION_KEY = new KeyMapping(
             KEY_STRING_TRANSFORMATION,
             KeyConflictContext.IN_GAME,
             InputConstants.Type.KEYSYM,
-            GLFW.GLFW_KEY_V, // 默认按键为V键
+            GLFW.GLFW_KEY_V,
             KEY_CATEGORY_STRINOVA
     );
 
-    /*
-     * 技能功能的按键映射
-     * 默认绑定到C键，用于在游戏中触发技能操作
-     */
+    // C键: 技能
     public static final KeyMapping SKILL_KEY = new KeyMapping(
             KEY_SKILL,
             KeyConflictContext.IN_GAME,
             InputConstants.Type.KEYSYM,
-            GLFW.GLFW_KEY_C, // 默认按键为C键
+            GLFW.GLFW_KEY_C,
             KEY_CATEGORY_STRINOVA
     );
 
-    /*
-     * 打开UI界面的按键映射
-     * 默认绑定到K键，用于在游戏中打开弦化UI界面
-     */
+    // K键: 打开角色面板
     public static final KeyMapping OPEN_UI_KEY = new KeyMapping(
             KEY_OPEN_UI,
             KeyConflictContext.IN_GAME,
             InputConstants.Type.KEYSYM,
-            GLFW.GLFW_KEY_K, // 默认按键为K键
+            GLFW.GLFW_KEY_K,
             KEY_CATEGORY_STRINOVA
     );
 
-    /*
-     * 注册按键绑定的事件处理方法
-     * 当Forge注册按键映射事件触发时，将自定义按键绑定注册到游戏中
-     *
-     * @param event 按键映射注册事件对象，用于注册自定义按键
-     */
     @SubscribeEvent
-    public static void registerKeyBindings(RegisterKeyMappingsEvent event) {
-        // 注册字符串转换按键绑定
+    public static void registerKeyBindings(RegisterKeyMappingsEvent event)
+    {
+        event.register(STRINOVA_MODE_KEY);
         event.register(STRING_TRANSFORMATION_KEY);
-        // 注册技能按键绑定
         event.register(SKILL_KEY);
-        // 注册打开UI按键绑定
         event.register(OPEN_UI_KEY);
-        System.out.println("Registered String Transformation Key, Skill Key and Open UI Key");
+        LOGGER.info("Registered strinova mode, string transformation, skill and open UI keys");
     }
 
-    /*
-     * 处理按键输入事件
-     * 检测自定义按键是否被按下并执行相应操作
-     */
     @Mod.EventBusSubscriber(modid = StrinovaMc.MOD_ID, value = Dist.CLIENT)
-    public static class KeyInputHandler {
+    public static class OpenUIKeyHandler
+    {
         @SubscribeEvent
-        public static void onKeyInput(InputEvent.Key event) {
-            // 检查是否按下了打开UI的键
-            if (OPEN_UI_KEY.consumeClick()) {
-                // 打开自定义UI界面
-                Minecraft.getInstance().setScreen(new StringifiedUIScreen());
+        public static void onKeyInput(InputEvent.Key event)
+        {
+            if (OPEN_UI_KEY.consumeClick())
+            {
+                Minecraft mc = Minecraft.getInstance();
+                if (mc.player == null) return;
+
+                // 角色面板也需要Strinova模式前置
+                mc.player.getCapability(StringStateCapability.INSTANCE).ifPresent(cap ->
+                {
+                    if (cap.isStrinovaMode())
+                    {
+                        mc.setScreen(new StringifiedUIScreen());
+                    }
+                    else
+                    {
+                        mc.player.displayClientMessage(
+                            Component.translatable("message.strinovamc.require_strinova_mode"),
+                            true
+                        );
+                    }
+                });
             }
         }
     }

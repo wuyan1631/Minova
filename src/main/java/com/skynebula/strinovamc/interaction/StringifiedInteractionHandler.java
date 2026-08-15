@@ -1,8 +1,11 @@
 package com.skynebula.strinovamc.interaction;
 
 import com.skynebula.strinovamc.capability.StringStateCapability;
-import com.skynebula.strinovamc.item.Moditems;
+import com.skynebula.strinovamc.item.ModItems;
+import com.skynebula.strinovamc.network.NetworkHandler;
+import com.skynebula.strinovamc.network.StringifyStateS2CPacket;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
@@ -56,16 +59,38 @@ public class StringifiedInteractionHandler
         Player player = event.getEntity();
         ItemStack stack = event.getItemStack();
 
-        if (stack.getItem() == Moditems.BABLO_CRYSTALS.get() && stack.getCount() >= 64)
+        if (stack.getItem() == ModItems.BABLO_CRYSTALS.get() && stack.getCount() >= 64)
         {
-            if (!player.level().isClientSide())
+            if (!player.level().isClientSide() && player instanceof ServerPlayer serverPlayer)
             {
                 player.getCapability(StringStateCapability.INSTANCE).ifPresent(cap ->
                 {
+                    // Strinova模式前置: 未开启时不能激活超弦体
+                    if (!cap.isStrinovaMode())
+                    {
+                        player.displayClientMessage(
+                            Component.translatable("message.strinovamc.require_strinova_mode"),
+                            true
+                        );
+                        return;
+                    }
+
                     if (!cap.isSuperStringified())
                     {
+                        // 只激活超弦体(卡丘身), 弦化状态由玩家手动V键进入/退出
                         cap.setSuperStringified(true);
                         stack.shrink(64);
+
+                        // 将最新状态同步给客户端
+                        NetworkHandler.sendToPlayer(
+                            new StringifyStateS2CPacket(cap.isStrinovaMode(), cap.isStringified(), cap.isSuperStringified(), cap.getSelectedCharacter()),
+                            serverPlayer
+                        );
+
+                        player.displayClientMessage(
+                            Component.translatable("message.strinovamc.super_stringified_activated"),
+                            true
+                        );
                     }
                 });
             }

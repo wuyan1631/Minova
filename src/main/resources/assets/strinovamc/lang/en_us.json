@@ -9,6 +9,7 @@
   "Creativetab.strinovamc_tab": "Strinova",
 
   "key.category.strinovamc.strinova": "Strinova MC",
+  "key.strinovamc.strinova_mode": "Strinova Mode",
   "key.strinovamc.string_transformation": "String Transformation",
   "key.strinovamc.skill": "Use Skill",
   "key.strinovamc.open_ui": "Open Character Panel",
@@ -43,8 +44,12 @@
   "gui.strinovamc.close": "Close",
   "gui.strinovamc.back": "Back",
 
-  "message.strinovamc.string_transformation_activated": "Entered string transformation state! Body becomes flat.",
+  "message.strinovamc.string_transformation_activated": "Entered string transformation state! Body becomes flat. Glide in mid-air.",
   "message.strinovamc.string_transformation_deactivated": "Exited string transformation state! Body returns to normal.",
+  "message.strinovamc.mode_activated": "Strinova mode enabled! Shoulder view locked.",
+  "message.strinovamc.mode_deactivated": "Strinova mode disabled.",
+  "message.strinovamc.require_strinova_mode": "Press L to enter Strinova mode first!",
+  "message.strinovamc.super_stringified_activated": "Entered super stringified state! KaQiu Body acquired: enhanced jumps.",
   "message.strinovamc.skill_activated": "Skill activated!",
   "message.strinovamc.cannot_stringify": "Cannot perform string transformation due to %s!",
   "message.strinovamc.cannot_interact_while_stringified": "Cannot interact with blocks while stringified!",

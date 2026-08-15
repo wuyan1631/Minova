@@ -1,7 +1,7 @@
 package com.skynebula.strinovamc.block;
 
 import com.skynebula.strinovamc.StrinovaMc;
-import com.skynebula.strinovamc.item.Moditems;
+import com.skynebula.strinovamc.item.ModItems;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -21,14 +21,15 @@ public class ModBlocks
     public static final DeferredRegister<Block> BLOCKS =
             DeferredRegister.create(ForgeRegistries.BLOCKS, StrinovaMc.MOD_ID);
 
-    // 注册 sidestep_block 方块，复制铁块的属性
-    public static final RegistryObject<Block> BABLO_CRYSTALS_BLOCK_ORE = registryBlock("bablo_crystals_block_ore",
+    // 注册 巴布洛晶体矿石, 发光7级
+    public static final RegistryObject<Block> BABLO_CRYSTALS_BLOCK_ORE = registerBlock("bablo_crystals_block_ore",
             () -> new Block(BlockBehaviour.Properties.of()
                     .strength(3.0F, 3.0F)
                     .sound(SoundType.STONE)
                     .lightLevel((state) -> 7)));
 
-    public static final RegistryObject<Block> BABLO_CRYSTALS_BLOCK = registryBlock("bablo_crystals_block",
+    // 注册 巴布洛晶体块, 发光4级
+    public static final RegistryObject<Block> BABLO_CRYSTALS_BLOCK = registerBlock("bablo_crystals_block",
             () -> new Block(BlockBehaviour.Properties.of()
                     .strength(3.0F, 3.0F)
                     .sound(SoundType.METAL)
@@ -42,11 +43,11 @@ public class ModBlocks
      * @param <T> 方块类型
      */
 
-    public static <T extends Block> RegistryObject<T> registryBlock(String name, Supplier<T> block) {
+    public static <T extends Block> RegistryObject<T> registerBlock(String name, Supplier<T> block) {
         // 注册方块
         RegistryObject<T> toReturn = BLOCKS.register(name, block);
         // 同时注册方块对应的物品
-        registryBlock(name, toReturn);
+        registerBlock(name, toReturn);
         return toReturn;
     }
 
@@ -57,9 +58,9 @@ public class ModBlocks
      * @return 注册的物品对象
      * @param <T> 方块类型
      */
-    public static <T extends Block> RegistryObject<Item> registryBlock(String name, RegistryObject<T> block)
+    public static <T extends Block> RegistryObject<Item> registerBlock(String name, RegistryObject<T> block)
     {
-        return Moditems.ITEMS.register(name, () -> new BlockItem(block.get(), new Item.Properties()));
+        return ModItems.ITEMS.register(name, () -> new BlockItem(block.get(), new Item.Properties()));
     }
 
     /*

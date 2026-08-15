@@ -1,6 +1,9 @@
 package com.skynebula.strinovamc.client.gui.screens;
 
 import com.skynebula.strinovamc.capability.StringStateCapability;
+import com.skynebula.strinovamc.network.NetworkHandler;
+import com.skynebula.strinovamc.network.SelectCharacterC2SPacket;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
@@ -66,6 +69,15 @@ public class StringifiedUIScreen extends Screen {
 
     public StringifiedUIScreen() {
         super(Component.translatable("gui.strinovamc.character_panel_title"));
+
+        // 读取服务器保存的已选角色(加入世界时通过数据包同步到本地Capability)
+        Player player = Minecraft.getInstance().player;
+        if (player != null)
+        {
+            player.getCapability(StringStateCapability.INSTANCE).ifPresent(cap ->
+                this.selectedCharacter = Math.max(0, Math.min(cap.getSelectedCharacter(), CHARACTERS.length - 1))
+            );
+        }
     }
 
     @Override
@@ -325,6 +337,9 @@ public class StringifiedUIScreen extends Screen {
     private void confirmCharacterSelection() {
         characterSelected = true;
         messageDisplayTime = 100; // 显示消息约5秒(在20 TPS下)
+
+        // 将所选角色发送到服务器保存(随玩家NBT持久化)
+        NetworkHandler.sendToServer(new SelectCharacterC2SPacket(selectedCharacter));
     }
 
     @Override

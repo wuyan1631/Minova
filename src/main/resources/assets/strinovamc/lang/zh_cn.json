@@ -9,6 +9,7 @@
   "Creativetab.strinovamc_tab": "卡拉彼丘",
 
   "key.category.strinovamc.strinova": "Strinova MC",
+  "key.strinovamc.strinova_mode": "Strinova模式",
   "key.strinovamc.string_transformation": "弦化",
   "key.strinovamc.skill": "使用技能",
   "key.strinovamc.open_ui": "打开角色面板",
@@ -43,8 +44,12 @@
   "gui.strinovamc.close": "关闭",
   "gui.strinovamc.back": "返回",
 
-  "message.strinovamc.string_transformation_activated": "进入弦化状态！身体变得扁平化。",
+  "message.strinovamc.string_transformation_activated": "进入弦化状态！身体变得扁平化，空中可飘飞。",
   "message.strinovamc.string_transformation_deactivated": "退出弦化状态！身体恢复正常。",
+  "message.strinovamc.mode_activated": "已进入Strinova模式，锁定越肩视角！",
+  "message.strinovamc.mode_deactivated": "已退出Strinova模式。",
+  "message.strinovamc.require_strinova_mode": "请先按L键进入Strinova模式！",
+  "message.strinovamc.super_stringified_activated": "进入超弦体状态！获得卡丘身：跳跃强化。",
   "message.strinovamc.skill_activated": "技能已激活!",
   "message.strinovamc.cannot_stringify": "由于%s，无法进行弦化操作!",
   "message.strinovamc.cannot_interact_while_stringified": "弦化状态下无法与方块交互!",
