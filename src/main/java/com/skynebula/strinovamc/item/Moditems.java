@@ -7,28 +7,29 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
-public class Moditems
+public class ModItems
 {
     public static final DeferredRegister<Item> ITEMS =
             DeferredRegister.create(ForgeRegistries.ITEMS, StrinovaMc.MOD_ID);
 
+    // 理想币
     public static final RegistryObject<Item> DREAM_TOKENS = ITEMS.register("dream_tokens",
             () -> new Item(new Item.Properties()));
-    //注册理想币
+
+    // 基弦
     public static final RegistryObject<Item> BASESTRINGS = ITEMS.register("basestrings",
             () -> new Item(new Item.Properties()));
-    //注册基弦
-    public static final RegistryObject<Item> BABLO_CRYSTALS = ITEMS.register("bablo_crystals",
-        () -> new Item(new Item.Properties()));
-    //注册巴布洛晶核
 
+    // 巴布洛晶体
+    public static final RegistryObject<Item> BABLO_CRYSTALS = ITEMS.register("bablo_crystals",
+            () -> new Item(new Item.Properties()));
+
+    // KLBQ图标(创造模式物品栏图标)
     public static final RegistryObject<Item> KLBQLOGO = ITEMS.register("klbqlogo",
             () -> new Item(new Item.Properties()));
 
     public static void register(IEventBus eventBus)
     {
         ITEMS.register(eventBus);
-        // 可以在此处使用 BASESTRINGS，例如：
-        // System.out.println("Registered item: " + BASESTRINGS.getId());
     }
 }
